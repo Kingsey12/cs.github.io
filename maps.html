@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Counter-Strike 2 - 맵 전략</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&amp;family=Roboto:wght@400;500&amp;display=swap');
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top left, #0a0f17, #121b2a 70%);
+      color: #eee;
+      font-family: 'Roboto', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: linear-gradient(90deg, #141e2e, #0a101a);
+      padding: 1rem 2rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.7);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #ffc107;
+      letter-spacing: 2px;
+      user-select: none;
+      text-shadow: 0px 0px 8px #ffc107aa;
+      text-decoration: none;
+    }
+    .logo img {
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      filter: drop-shadow(0 0 4px #ffc107cc);
+      user-select: none;
+    }
+    nav {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    nav a {
+      color: #bbb;
+      font-weight: 500;
+      text-decoration: none;
+      font-size: 1rem;
+      position: relative;
+      padding: 0.5rem 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.25s ease;
+      user-select: none;
+    }
+    nav a svg {
+      width: 16px;
+      height: 16px;
+      fill: #bbb;
+      transition: fill 0.25s ease;
+    }
+    nav a:hover,
+    nav a.active {
+      color: #ffc107;
+    }
+    nav a:hover svg,
+    nav a.active svg {
+      fill: #ffc107;
+      filter: drop-shadow(0 0 3px #ffc107);
+    }
+    nav a.active::after {
+      content: "";
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #ffc107;
+      border-radius: 2px;
+      filter: drop-shadow(0 0 4px #ffc107);
+    }
+    main {
+      flex: 1;
+      max-width: 1200px;
+      margin: 3rem auto 4rem;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 2rem;
+      align-items: start;
+    }
+    section.content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .gallery-container {
+      position: relative;
+      max-width: 720px;
+      width: 100%;
+      user-select: none;
+    }
+    .map-image {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      border-radius: 14px;
+      box-shadow: 0 0 25px #ffc107bb;
+      transition: opacity 0.4s ease-in-out;
+      background: #111;
+    }
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #ffc107dd;
+      color: #121212;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 0 10px #ffc107bb;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    .nav-arrow:hover {
+      background: #ffcb3c;
+    }
+    .nav-left {
+      left: -60px;
+    }
+    .nav-right {
+      right: -60px;
+    }
+    .nav-arrow svg {
+      width: 28px;
+      height: 28px;
+      fill: #121212;
+    }
+    .map-details {
+      margin-top: 20px;
+      max-width: 700px;
+      background: #1e2838cc;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px #ffc10799;
+      text-align: center;
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: #ddd;
+      font-family: 'Roboto', sans-serif;
+      user-select: text;
+    }
+    .map-details h2 {
+      color: #ffc107;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 12px;
+      letter-spacing: 1.2px;
+      text-shadow: 0 0 8px #ffc107bb;
+    }
+    aside.sidebar {
+      background: #1e2838cc;
+      border-radius: 12px;
+      box-shadow: 0 0 15px #ffc10799;
+      padding: 1rem 1.25rem;
+      color: #eee;
+      font-size: 1rem;
+      line-height: 1.5;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+    aside.sidebar h3 {
+      font-family: 'Orbitron', sans-serif;
+      color: #ffc107;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 7px #ffc107bb;
+      user-select: none;
+    }
+    aside.sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    aside.sidebar li {
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #444;
+      padding-bottom: 0.7rem;
+      cursor: default;
+    }
+    aside.sidebar li:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+    aside.sidebar li time {
+      display: block;
+      color: #bbb;
+      font-size: 0.9rem;
+      margin-top: 0.2rem;
+      user-select: none;
+    }
+    footer {
+      background: linear-gradient(90deg, #141e2e, #0a101a);
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #666;
+      user-select: none;
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.7);
+    }
+    body::before {
+      content: "";
+      pointer-events: none;
+      position: fixed;
+      top: -20%;
+      left: -20%;
+      width: 140vw;
+      height: 140vh;
+      background:
+        radial-gradient(circle at 45% 45%, #ffc10722, transparent 40%),
+        radial-gradient(circle at 70% 50%, #ff6f0055, transparent 30%),
+        radial-gradient(circle at 60% 30%, #ffd54f33, transparent 70%);
+      animation: pulse 16s ease-in-out infinite;
+      filter: blur(80px);
+      z-index: 0;
+    }
+    @keyframes pulse {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: translate(40px, 40px) scale(1.05);
+        opacity: 0.6;
+      }
+    }
+    @media (max-width: 960px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+      aside.sidebar {
+        max-height: none;
+        margin-top: 2rem;
+      }
+      .nav-arrow.nav-left {
+        left: 10px;
+      }
+      .nav-arrow.nav-right {
+        right: 10px;
+      }
+    }
+    @media (max-width: 600px) {
+      nav {
+        gap: 1rem;
+      }
+      .map-image {
+        height: 300px;
+      }
+      main h2, .map-details h2 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" aria-label="Counter-Strike 2 Home" class="logo">
+      CS<span style="color:#ffffff">2</span>
+    </a>
+    <nav>
+      <a href="index.html" title="홈 Home - CS2 haqida umumiy ma’lumot">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9.5L12 4l9 5.5v10a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1v-6H10v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-10z"/></svg>
+        홈 Home
+      </a>
+      <a href="game-info.html" title="게임 정보 Game Info - O‘yin tarixi, ishlab chiquvchi, yangiliklar">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16m8-8H4"/></svg>
+        게임 정보
+      </a>
+      <a href="weapons.html" title="무기 소개 Weapons - O‘yin ichidagi qurollar va ularning turlari">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2v19l7-4 7 4V2z"/></svg>
+        무기 소개
+      </a>
+      <a href="maps.html" class="active" title="맵 전략 Maps & Tactics - Xaritalar va strategiyalar">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18v-12l7-4 7 4v12l-7 4z"/></svg>
+        맵 전략
+      </a>
+      <a href="tips.html" title="팁 & 트릭 Tips & Tricks - Boshlovchilar uchun maslahatlar">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12,2a10 10 0 1 0 0,20a10 10 0 0 0 0-20zM11 17h2v2h-2v-2zM11 7h2v7h-2V7z"/></svg>
+        팁 & 트릭
+      </a>
+      <a href="community.html" title="커뮤니티 Community - Fikr almashish va savollar-javoblar">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18M8 12v7h8v-7H8zm0-7v3h8V5H8z"/></svg>
+        커뮤니티
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="content" aria-label="Map Gallery and Information">
+      <div class="gallery-container">
+        <img id="mapImage" class="map-image" src="https://cdn.cloudflare.steamstatic.com/steam/apps/730/ss_44b3c39f13d648f9c70c07b1162000c71b2e122b.1920x1080.jpg" alt="Dust II Map" />
+        <button class="nav-arrow nav-left" aria-label="Previous Map" id="prevBtn" tabindex="0">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </button>
+        <button class="nav-arrow nav-right" aria-label="Next Map" id="nextBtn" tabindex="0">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </button>
+      </div>
+      <article class="map-details" id="mapDetails">
+        <h2>Dust II (더스트 II)</h2>
+        <p>Counter-Strike 시리즈의 가장 유명한 맵 중 하나로, 균형 잡힌 디자인과 전략적인 위치들이 특징입니다. 공격과 방어 모두 다양한 전술이 가능하여 초보자부터 고수까지 사랑받는 맵입니다.</p>
+      </article>
+    </section>
+
+    <aside class="sidebar" aria-label="최근 소식">
+      <h3>최근 소식</h3>
+      <ul>
+        <li>새로운 맵 업데이트와 리믹스가 적용되었습니다.<time datetime="2024-06-25">2024-06-25</time></li>
+        <li>맵별 전략 가이드 영상 시리즈 공개.<time datetime="2024-05-18">2024-05-18</time></li>
+        <li>대회에서 사용되는 주요 맵 변경사항 발표.<time datetime="2024-04-22">2024-04-22</time></li>
+        <li>커뮤니티가 제안한 맵 개선사항 검토 중.<time datetime="2024-03-30">2024-03-30</time></li>
+        <li>신규 맵 “Arcadia” 테스트 서버 적용.<time datetime="2024-02-14">2024-02-14</time></li>
+      </ul>
+    </aside>
+  </main>
+
+  <footer>
+    &copy; 2024 Counter-Strike 2 팬 사이트 &mdash; 모든 권리 보유
+  </footer>
+
+  <script>
+    const maps = [
+      {
+        name: "Dust II (더스트 II)",
+        image: "dust2.jpg",
+        description: "Counter-Strike 시리즈의 가장 유명한 맵 중 하나로, 균형 잡힌 디자인과 전략적인 위치들이 특징입니다. 공격과 방어 모두 다양한 전술이 가능하여 초보자부터 고수까지 사랑받는 맵입니다."
+      },
+      {
+        name: "Mirage (미라지)",
+        image: "mirage.png",
+        description: "중동 스타일의 테마를 가진 맵으로, 빠른 이동과 전략적 배치가 중요한 맵입니다. 중거리 교전과 폭탄 지역 컨트롤이 핵심 요소입니다."
+      },
+      {
+        name: "Inferno (인페르노)",
+        image: "inferno.jpg",
+        description: "좁은 골목과 다양한 엄폐물이 특징인 맵으로, 팀워크와 정찰이 중요한 역할을 합니다. 폭탄 설치 지역 접근이 도전적입니다."
+      },
+      {
+        name: "Nuke (누크)",
+        image: "nuke.jpg",
+        description: "다층 구조를 가진 핵심맵으로, 수직적 전투와 복잡한 라인이 특징입니다. 경험 많은 팀에 유리한 맵입니다."
+      },
+      {
+        name: "Overpass (오버패스)",
+        image: "overpass.jpg",
+        description: "도시 공원을 배경으로 한 맵으로, 장거리 싸움과 전략적 맵 컨트롤이 중요합니다. 폭탄 지역이 넓고 접근이 다양합니다."
+      }
+    ];
+
+    let currentIndex = 0;
+
+    const mapImage = document.getElementById('mapImage');
+    const mapDetails = document.getElementById('mapDetails');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function updateMap() {
+      const map = maps[currentIndex];
+      mapImage.style.opacity = '0';
+      setTimeout(() => {
+        mapImage.src = map.image;
+        mapImage.alt = map.name + " Map Image";
+        mapDetails.innerHTML = `
+          <h2>${map.name}</h2>
+          <p>${map.description}</p>
+        `;
+        mapImage.style.opacity = '1';
+      }, 300);
+    }
+
+    prevBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + maps.length) % maps.length;
+      updateMap();
+    });
+
+    nextBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % maps.length;
+      updateMap();
+    });
+
+    // Optional: Allow keyboard arrow navigation
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') {
+        prevBtn.click();
+      } else if (e.key === 'ArrowRight') {
+        nextBtn.click();
+      }
+    });
+
+    // Initialize
+    updateMap();
+  </script>
+</body>
+</html>
+

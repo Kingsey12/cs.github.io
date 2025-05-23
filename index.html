@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Counter-Strike 2 - 홈</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;500&display=swap');
+
+    /* Reset and base */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top left, #0a0f17, #121b2a 70%);
+      color: #eee;
+      font-family: 'Roboto', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: linear-gradient(90deg, #141e2e, #0a101a);
+      padding: 1rem 2rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.7);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Logo style */
+    .logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #ffc107;
+      letter-spacing: 2px;
+      user-select: none;
+      text-shadow: 0px 0px 8px #ffc107aa;
+    }
+
+    /* Nav style */
+    nav {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    nav a {
+      color: #bbb;
+      font-weight: 500;
+      text-decoration: none;
+      font-size: 1rem;
+      position: relative;
+      padding: 0.5rem 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.25s ease;
+      user-select: none;
+    }
+    nav a svg {
+      width: 16px;
+      height: 16px;
+      fill: #bbb;
+      transition: fill 0.25s ease;
+    }
+    nav a:hover,
+    nav a.active {
+      color: #ffc107;
+    }
+    nav a:hover svg,
+    nav a.active svg {
+      fill: #ffc107;
+      filter: drop-shadow(0 0 3px #ffc107);
+    }
+    nav a.active::after {
+      content: "";
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #ffc107;
+      border-radius: 2px;
+      filter: drop-shadow(0 0 4px #ffc107);
+    }
+
+    main {
+      flex: 1;
+      max-width: 960px;
+      margin: 3rem auto 4rem;
+      padding: 0 1rem;
+    }
+
+    .hero-image {
+      width: 100%;
+      max-height: 380px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 0 25px #ffc107bb;
+      margin-bottom: 2rem;
+      user-select: none;
+      filter: drop-shadow(0 0 10px #ffb900cc);
+      transition: transform 0.3s ease;
+    }
+    .hero-image:hover {
+      transform: scale(1.02);
+    }
+
+    main h2 {
+      color: #ffc107;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 2.8rem;
+      margin-bottom: 0.8rem;
+      letter-spacing: 1.5px;
+      text-shadow: 0 0 8px #ffc107bb;
+    }
+
+    main p {
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: #ccc;
+      max-width: 700px;
+      margin-bottom: 1.4rem;
+      text-shadow: 0 0 3px #0008;
+    }
+
+    footer {
+      background: linear-gradient(90deg, #141e2e, #0a101a);
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #666;
+      user-select: none;
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.7);
+    }
+
+    /* Subtle animated background element */
+    body::before {
+      content: "";
+      pointer-events: none;
+      position: fixed;
+      top: -20%;
+      left: -20%;
+      width: 140vw;
+      height: 140vh;
+      background:
+        radial-gradient(circle at 45% 45%, #ffc10722, transparent 40%),
+        radial-gradient(circle at 70% 50%, #ff6f0055, transparent 30%),
+        radial-gradient(circle at 60% 30%, #ffd54f33, transparent 70%);
+      animation: pulse 16s ease-in-out infinite;
+      filter: blur(80px);
+      z-index: 0;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: translate(40px, 40px) scale(1.05);
+        opacity: 0.6;
+      }
+    }
+
+    /* Responsive design */
+
+    @media (max-width: 600px) {
+      nav {
+        gap: 1rem;
+      }
+      main h2 {
+        font-size: 2rem;
+      }
+      main p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo" title="Counter-Strike 2">CS<span style="color:#ffffff">2</span></div>
+    <nav>
+      <a href="index.html" class="active" title="홈 Home - CS2에 대한 기본 정보">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9.5L12 4l9 5.5v10a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1v-6H10v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-10z"/></svg>
+        홈 Home
+      </a>
+      <a href="game-info.html" title="게임 정보 Game Info - 게임의 역사, 개발사, 최신 소식">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16m8-8H4"/></svg>
+        게임 정보
+      </a>
+      <a href="weapons.html" title="무기 소개 Weapons - 게임 내 무기와 종류">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2v19l7-4 7 4V2z"/></svg>
+        무기 소개
+      </a>
+      <a href="maps.html" title="맵 전략 Maps & Tactics - 맵과 전략">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18v-12l7-4 7 4v12l-7 4z"/></svg>
+        맵 전략
+      </a>
+      <a href="tips.html" title="팁 & 트릭 Tips & Tricks - 초보자를 위한 팁">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12,2a10 10 0 1 0 0,20a10 10 0 0 0 0-20zM11 17h2v2h-2v-2zM11 7h2v7h-2V7z"/></svg>
+        팁 & 트릭
+      </a>
+      <a href="community.html" title="커뮤니티 Community - 의견 공유 및 Q&A">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18M8 12v7h8v-7H8zm0-7v3h8V5H8z"/></svg>
+        커뮤니티
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <img
+      class="hero-image"
+      src="header.jpg"
+      alt="Counter-Strike 2 게임 대표 이미지"
+      loading="lazy"
+      decoding="async"
+      width="960"
+      height="380"
+    />
+    <h2>CS2에 대한 기본 정보</h2>
+    <p>Counter-Strike 2 (CS2)는 현대적인 멀티플레이어 1인칭 슈팅 게임으로, 플레이어들은 팀을 이루어 테러리스트와 대테러리스트로 나뉘어 임무를 수행합니다.</p>
+    <p>이 게임은 높은 그래픽 품질, 현실적인 게임 메커니즘, 그리고 팀 전략을 요구합니다.</p>
+    <p>CS2는 Counter-Strike 시리즈의 최신 버전으로, Valve에서 개발하였습니다.</p>
+  </main>
+
+  <footer>
+    &copy; 2024 Counter-Strike 2 팬 사이트 &mdash; 모든 권리 보유
+  </footer>
+</body>
+</html>
+

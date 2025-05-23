@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>팁 & 트릭 - CS2 완전 정복 가이드</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;500&display=swap');
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top left, #0a0f17, #121b2a 70%);
+      color: #eee;
+      font-family: 'Roboto', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: linear-gradient(90deg, #141e2e, #0a101a);
+      padding: 1rem 2rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.7);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #ffc107;
+      letter-spacing: 2px;
+      user-select: none;
+      text-shadow: 0px 0px 8px #ffc107aa;
+      text-decoration: none;
+    }
+    .logo img {
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      filter: drop-shadow(0 0 4px #ffc107cc);
+      user-select: none;
+    }
+    nav {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    nav a {
+      color: #bbb;
+      font-weight: 500;
+      text-decoration: none;
+      font-size: 1rem;
+      position: relative;
+      padding: 0.5rem 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.25s ease;
+      user-select: none;
+    }
+    nav a svg {
+      width: 16px;
+      height: 16px;
+      fill: #bbb;
+      transition: fill 0.25s ease;
+    }
+    nav a:hover,
+    nav a.active {
+      color: #ffc107;
+    }
+    nav a:hover svg,
+    nav a.active svg {
+      fill: #ffc107;
+      filter: drop-shadow(0 0 3px #ffc107);
+    }
+    nav a.active::after {
+      content: "";
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #ffc107;
+      border-radius: 2px;
+      filter: drop-shadow(0 0 4px #ffc107);
+    }
+    main {
+      flex: 1;
+      max-width: 1200px;
+      margin: 3rem auto 4rem;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 2rem;
+      align-items: start;
+    }
+    /* section.content styles can be added here if needed */
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .tip-card {
+      background-color: #1e1e1e;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+      transition: transform 0.2s;
+    }
+    .tip-card:hover {
+      transform: translateY(-5px);
+    }
+    .tip-card h2 {
+      font-size: 1.3em;
+      margin-bottom: 10px;
+    }
+    .tip-card p {
+      font-size: 0.95em;
+      line-height: 1.6em;
+      color: #ccc;
+    }
+    aside.sidebar {
+      background: #1e2838cc;
+      border-radius: 12px;
+      box-shadow: 0 0 15px #ffc10799;
+      padding: 1rem 1.25rem;
+      color: #eee;
+      font-size: 1rem;
+      line-height: 1.5;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+    aside.sidebar h3 {
+      font-family: 'Orbitron', sans-serif;
+      color: #ffc107;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 7px #ffc107bb;
+      user-select: none;
+    }
+    aside.sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    aside.sidebar li {
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #444;
+      padding-bottom: 0.7rem;
+      cursor: default;
+    }
+    aside.sidebar li:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+    aside.sidebar li time {
+      display: block;
+      color: #bbb;
+      font-size: 0.9rem;
+      margin-top: 0.2rem;
+      user-select: none;
+    }
+    footer {
+      background: linear-gradient(90deg, #141e2e, #0a101a);
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #666;
+      user-select: none;
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.7);
+    }
+    body::before {
+      content: "";
+      pointer-events: none;
+      position: fixed;
+      top: -20%;
+      left: -20%;
+      width: 140vw;
+      height: 140vh;
+      background:
+        radial-gradient(circle at 45% 45%, #ffc10722, transparent 40%),
+        radial-gradient(circle at 70% 50%, #ff6f0055, transparent 30%),
+        radial-gradient(circle at 60% 30%, #ffd54f33, transparent 70%);
+      animation: pulse 16s ease-in-out infinite;
+      filter: blur(80px);
+      z-index: 0;
+    }
+    @keyframes pulse {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: translate(40px, 40px) scale(1.05);
+        opacity: 0.6;
+      }
+    }
+    @media (max-width: 960px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+      aside.sidebar {
+        max-height: none;
+        margin-top: 2rem;
+      }
+    }
+    @media (max-width: 600px) {
+      nav {
+        gap: 1rem;
+      }
+      main h2 {
+        font-size: 2rem;
+      }
+      main p {
+        font-size: 1rem;
+      }
+      .logo {
+        font-size: 1.4rem;
+      }
+      .logo img {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" aria-label="Counter-Strike 2 Home" class="logo">
+      CS<span style="color:#ffffff">2</span>
+    </a>
+    <nav>
+      <a href="index.html" title="홈 Home - CS2 haqida umumiy ma’lumot"> 
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9.5L12 4l9 5.5v10a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1v-6H10v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-10z"/></svg>
+        홈 Home
+      </a>
+      <a href="game-info.html" title="게임 정보 Game Info - O‘yin tarixi, ishlab chiquvchi, yangiliklar">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16m8-8H4"/></svg>
+        게임 정보
+      </a>
+      <a href="weapons.html" title="무기 소개 Weapons - O‘yin ichidagi qurollar va ularning turlari">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2v19l7-4 7 4V2z"/></svg>
+        무기 소개
+      </a>
+      <a href="maps.html" title="맵 전략 Maps & Tactics - Xaritalar va strategiyalar">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18v-12l7-4 7 4v12l-7 4z"/></svg>
+        맵 전략
+      </a>
+      <a href="tips.html" class="active" title="팁 & 트릭 Tips & Tricks - Boshlovchilar uchun maslahatlar">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12,2a10 10 0 1 0 0,20a10 10 0 0 0 0-20zM11 17h2v2h-2v-2zM11 7h2v7h-2V7z"/></svg>
+        팁 & 트릭
+      </a>
+      <a href="community.html" title="커뮤니티 Community - Fikr almashish va savollar-javoblar">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18M8 12v7h8v-7H8zm0-7v3h8V5H8z"/></svg>
+        커뮤니티
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="content">
+      <h1>💡 팁 & 트릭</h1>
+      <div class="grid-container">
+        <div class="tip-card">
+          <h2>🎯 조준 실력 향상</h2>
+          <p>자신에게 맞는 크로스헤어 설정과 감도 찾기, 에임 훈련 맵 추천 (Aim Lab, Kovaak’s, CS2 워크샵 등)</p>
+        </div>
+        <div class="tip-card">
+          <h2>💰 돈 관리 전략</h2>
+          <p>에코 라운드 타이밍, 팀 전체 돈 상태 파악, 효율적인 구매 전략 (Utility 우선)</p>
+        </div>
+        <div class="tip-card">
+          <h2>🎧 소리 플레이 마스터</h2>
+          <p>적 발소리 구분, 사운드 우위 활용, 주변 소음 줄이기 위한 설정</p>
+        </div>
+        <div class="tip-card">
+          <h2>🗺️ 맵 이해도 높이기</h2>
+          <p>주요 맵 구조 숙지, 라인업 스모크/모루, 리테이크 & 홀딩 포지션</p>
+        </div>
+        <div class="tip-card">
+          <h2>🎙️ 팀원과의 소통</h2>
+          <p>정확한 콜 방식, 기본 용어 사용, 팀 분위기 조성을 위한 팁</p>
+        </div>
+        <div class="tip-card">
+          <h2>🔥 초보자 추천 무기</h2>
+          <p>컨트롤 쉬운 무기 추천 (P90, Famas, M4A4), 기본 리코일 패턴 설명</p>
+        </div>
+      </div>
+    </section>
+
+    <aside class="sidebar" aria-label="최근 소식">
+      <h3>최근 소식</h3>
+      <ul>
+        <li>새로운 초보자 가이드 동영상이 업로드되었습니다.<time datetime="2024-06-18">2024-06-18</time></li>
+        <li>게임 내 팁 시스템 개선 업데이트가 진행 중입니다.<time datetime="2024-05-30">2024-05-30</time></li>
+        <li>트릭샷 및 고급 기술을 위한 튜토리얼 시리즈 출시.<time datetime="2024-04-14">2024-04-14</time></li>
+        <li>커뮤니티 주최 온라인 연습 대회 예정.<time datetime="2024-03-29">2024-03-29</time></li>
+        <li>신규 플레이어를 위한 로비 개선 기능 도입.<time datetime="2024-02-25">2024-02-25</time></li>
+      </ul>
+    </aside>
+  </main>
+
+  <footer>
+    &copy; 2024 Counter-Strike 2 팬 사이트 &mdash; 모든 권리 보유
+  </footer>
+</body>
+</html>
